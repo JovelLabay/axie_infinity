@@ -1,0 +1,35 @@
+/* LOGIN */
+.login {
+  padding: 2rem 0;
+}
+.login_form {
+  max-width: 20rem;
+  margin: 2rem auto;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px rgb(168, 168, 168);
+  padding: 1rem 1.5rem;
+}
+
+/* NAVIGATION */
+.navigation_content {
+  box-shadow: 2px 0px 4px rgb(168, 168, 168);
+  padding: 0.5rem 0.5rem;
+}
+.navigation {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* DASHBOARD */
+
+/* TOP TABS BTN */
+.tab_btns {
+  margin: 1.3rem 0;
+  display: flex;
+  overflow-x: auto;
+}
+
+.top_btns {
+  margin: 0 0.5rem;
+  white-space: nowrap;
+}
