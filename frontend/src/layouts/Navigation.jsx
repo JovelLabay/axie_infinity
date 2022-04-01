@@ -23,36 +23,28 @@ export default function Navigation() {
   const props = { show, handleClose };
 
   return (
-    <nav className="sub_container">
+    <div className="sub_container">
       <Navbar>
-        <Container>
-          <Navbar.Brand className="flex items-center">
-            <img
-              src={logo}
-              alt="Logo"
-              height={50}
-              width={50}
-              className="pr-3"
-            />
-            <h4>Axie Infinity</h4>
-          </Navbar.Brand>
-          <Navbar.Collapse
-            id="basic-navbar-nav"
-            className="justify-content-end"
-          >
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown" align="end">
-              <NavDropdown.Item onClick={handleShow}>
-                Create new admin
-              </NavDropdown.Item>
-              <NavDropdown.Item>Delete all</NavDropdown.Item>
-              <NavDropdown.Item onClick={logout}>Log out</NavDropdown.Item>
-            </NavDropdown>
-          </Navbar.Collapse>
-        </Container>
+        <Navbar.Brand className="flex items-center">
+          <img src={logo} alt="Logo" height={50} width={50} className="pr-3" />
+          <h4>Axie Infinity</h4>
+        </Navbar.Brand>
+        <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
+          <NavDropdown title="Dropdown" id="basic-nav-dropdown" align="end">
+            <NavDropdown.Item onClick={handleShow}>
+              Create new admin
+            </NavDropdown.Item>
+            <NavDropdown.Item disabled>Delete all</NavDropdown.Item>
+            <NavDropdown.Item disabled>
+              Add new prohibited words
+            </NavDropdown.Item>
+            <NavDropdown.Item onClick={logout}>Log out</NavDropdown.Item>
+          </NavDropdown>
+        </Navbar.Collapse>
       </Navbar>
 
       {/* CREATE ADMIN MODAL */}
       <CreateAdminModal {...props} />
-    </nav>
+    </div>
   );
 }

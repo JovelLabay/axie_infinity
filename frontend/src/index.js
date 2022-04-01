@@ -24,6 +24,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 ReactDOM.render(
   <React.StrictMode>
+    <div className="alpha_version">
+      <h6>Alpha Version</h6>
+    </div>
     <Router>
       <Switch>
         <Route exact path="/">

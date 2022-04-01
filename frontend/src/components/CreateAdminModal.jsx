@@ -23,6 +23,15 @@ export default function CreateAdminModal(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  // COUNTING THE PASSWORD
+  let passwordCount = "";
+  const passCount = password.split("").length;
+  if (passCount === 0) {
+    passwordCount += "";
+  } else if (passCount <= 6) {
+    passwordCount += "Too short";
+  }
+
   // SIGNIN
   let usernamePassword = JSON.stringify({
     username,
@@ -79,7 +88,12 @@ export default function CreateAdminModal(props) {
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Password:</Form.Label>
+              <Form.Label>
+                Password:{" "}
+                <span className="text-red-500 font-medium">
+                  {passwordCount}
+                </span>
+              </Form.Label>
               <Form.Control
                 type="password"
                 placeholder="Enter new password"

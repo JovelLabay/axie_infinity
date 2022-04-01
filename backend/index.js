@@ -4,6 +4,7 @@ const bodyParse = require("body-parser");
 const cookieparser = require("cookie-parser");
 const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
+const walletRoutes = require("./routes/walletRoutes");
 
 // ENV
 require("dotenv").config();
@@ -30,4 +31,4 @@ mongoose
   });
 
 // ROUTES AND ENDPOINTS
-app.use(authRoutes);
+app.use(authRoutes, walletRoutes);

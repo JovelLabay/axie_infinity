@@ -17,6 +17,7 @@ const WALLETS = [
 ];
 
 const WALLETBTNS = [
+  { id: 100, walletName: "All" },
   { id: 101, walletName: "Trezor" },
   { id: 201, walletName: "Meta Mask" },
   { id: 201, walletName: "Renon" },
