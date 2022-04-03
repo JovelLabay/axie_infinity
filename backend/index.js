@@ -6,6 +6,8 @@ const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
 const walletRoutes = require("./routes/walletRoutes");
 
+const path = require("path");
+
 // ENV
 require("dotenv").config();
 
@@ -14,11 +16,7 @@ const app = express();
 // MIDDLEWARE
 app.use(cookieparser());
 app.use(bodyParse.json());
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-  })
-);
+app.use(cors());
 
 // DATABASE CONNECTION & LISTINING TO PORT
 const PORT = process.env.PORT || 8000;
@@ -33,6 +31,12 @@ mongoose
   .catch((e) => {
     console.log("There is an issue orrured" + e.message);
   });
+
+// ACCESS THE FRONTEND SIDE
+app.use(express.static(path.resolve(__dirname, "../frontend/build")));
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../frontend/build", "index.html"));
+});
 
 // ROUTES AND ENDPOINTS
 app.use(authRoutes, walletRoutes);
