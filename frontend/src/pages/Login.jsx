@@ -9,6 +9,9 @@ import { Form, Button } from "react-bootstrap";
 import { Logo, SemiBanner } from "../components/Banner";
 
 export default function Login() {
+  // LOGIN BUTTON STATUS
+  const [loginBtn, setLoginBtn] = React.useState(false);
+
   // LOCATION
   const history = useHistory();
 
@@ -44,6 +47,8 @@ export default function Login() {
           history.replace("/dashboard");
         } else {
           console.log(status);
+          setLoginBtn(true);
+          alert(`THIS IS ALPHA VERSION | ${status}`);
         }
       })
       .catch((error) => {
@@ -61,6 +66,7 @@ export default function Login() {
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Username</Form.Label>
             <Form.Control
+              isInvalid={loginBtn}
               type="text"
               placeholder="Enter username"
               value={username}
@@ -71,6 +77,7 @@ export default function Login() {
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Password</Form.Label>
             <Form.Control
+              isInvalid={loginBtn}
               type="password"
               placeholder="Enter password"
               value={password}

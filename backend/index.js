@@ -14,13 +14,17 @@ const app = express();
 // MIDDLEWARE
 app.use(cookieparser());
 app.use(bodyParse.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
 
 // DATABASE CONNECTION & LISTINING TO PORT
 const PORT = process.env.PORT || 8000;
 mongoose
-  // .connect(process.env.MONGODB_CONNECTION_STRING)
-  .connect("mongodb://localhost:27017/axie")
+  .connect(process.env.MONGODB_CONNECTION_STRING)
+  // .connect("mongodb://localhost:27017/axie")
   .then(() =>
     app.listen(PORT, () => {
       console.log(`The port is listening to ${PORT}`);

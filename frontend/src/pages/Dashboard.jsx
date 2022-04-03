@@ -21,7 +21,7 @@ export default function Dashboard() {
     // LOGIN AUTO
     const token = sessionStorage.getItem("token");
     if (token) {
-      // alert("Success");
+      alert("Success");
     } else {
       sessionStorage.removeItem("token");
       history.replace("/admin-login");

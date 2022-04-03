@@ -44,3 +44,8 @@
 .modal_title {
   @apply flex;
 }
+
+/* VIEW SELECTED WALLET */
+.paragraphs {
+  @apply font-bold;
+}
