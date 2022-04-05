@@ -42,7 +42,7 @@ export default function CreateAdminModal(props) {
 
     var config = {
       method: "post",
-      url: "http://localhost:8000/signin-admin",
+      url: "/signin-admin",
       headers: {
         "Content-Type": "application/json",
       },
@@ -52,19 +52,21 @@ export default function CreateAdminModal(props) {
 
     axios(config)
       .then((response) => {
-        console.log(response.data);
-        setStatus("Created");
-        setUsername("");
-        setPassword("");
-        setTimeout(() => {
-          setStatus("Create New");
-        }, 4000);
+        const responseData = response.data;
+        if (responseData === "Account Successfully Created") {
+          setStatus("Created");
+          setUsername("");
+          setPassword("");
+          setTimeout(() => {
+            setStatus("Create New");
+          }, 3000);
+        } else if (responseData === "Cannot use the sane username for admin") {
+          alert(responseData);
+          setStatus("Try again");
+        }
       })
       .catch((error) => {
-        console.log(error.message);
-        setStatus("Try Again");
-        setUsername("");
-        setPassword("");
+        alert(error.message);
       });
   };
 

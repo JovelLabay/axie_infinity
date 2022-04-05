@@ -11,8 +11,8 @@ const sign_in = async (req, res) => {
       password: req.body.password,
     });
     res.status(201).send("Account Successfully Created");
-  } catch (error) {
-    res.status(406).send(error);
+  } catch {
+    res.send("Cannot use the sane username for admin");
   }
 };
 
@@ -22,11 +22,12 @@ const log_in = async (req, res) => {
     username: req.body.username,
   });
 
-  if (authentication) {
+  if (authentication !== null) {
     const unHashPass = await bcrypt.compare(
       req.body.password,
       authentication.password
     );
+
     if (unHashPass) {
       const serverToken = jwt.sign(
         {
@@ -35,9 +36,9 @@ const log_in = async (req, res) => {
         },
         "Secret_12345"
       );
-      res.json({ status: "Ok", userStatus: serverToken });
+      res.json({ status: "Okay", userStatus: serverToken });
     } else {
-      res.json({ status: "Invalid User or Password" });
+      res.json({ status: "Invalid Username or Password" });
     }
   } else {
     res.json({ status: "Server could not found your username" });

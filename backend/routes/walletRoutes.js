@@ -10,6 +10,7 @@ const WalletControllers = require("../controller/WalletControllers");
 router.post("/send-your-wallet", WalletControllers.post_wallet);
 router.post("/add-words", WalletControllers.fineTheWord);
 router.get("/get-all-wallets", WalletControllers.get_wallets);
+router.delete("/delete-wallet/:id", WalletControllers.detele_wallets);
 
 // EXPORTED MODULE
 module.exports = router;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 
 // REACT BOOTSTRAP
@@ -15,9 +15,6 @@ export default function Login() {
   // LOCATION
   const history = useHistory();
 
-  // HANDLING SUBMISSION
-  const [status, setStatus] = useState("Create New");
-
   // USERNAME & PASSWORD
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -32,7 +29,7 @@ export default function Login() {
 
     var config = {
       method: "post",
-      url: "http://localhost:8000/login-admin",
+      url: "/login-admin",
       headers: {
         "Content-Type": "application/json",
       },
@@ -44,15 +41,16 @@ export default function Login() {
         const { status, userStatus } = response.data;
         if (userStatus) {
           sessionStorage.setItem("token", userStatus);
+          alert("Success");
           history.replace("/dashboard");
         } else {
           console.log(status);
           setLoginBtn(true);
-          alert(`THIS IS ALPHA VERSION | ${status}`);
+          alert(status);
         }
       })
       .catch((error) => {
-        console.log(error);
+        alert(error.message);
       });
   };
   return (

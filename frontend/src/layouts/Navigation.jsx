@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 // REACT BOOTSTRAP
-import { NavDropdown, Navbar, Container } from "react-bootstrap";
+import { NavDropdown, Navbar } from "react-bootstrap";
 import CreateAdminModal from "../components/CreateAdminModal";
+import CreateNewWord from "../components/CreateNewWord";
 
 import logo from "../img/logo120.png";
 
@@ -19,9 +20,13 @@ export default function Navigation() {
   };
   // CREATE NEW ADMIN MODAL
   const [show, setShow] = useState(false);
+  const [show2, setShow2] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleClose2 = () => setShow2(false);
+  const handleShow2 = () => setShow2(true);
   const props = { show, handleClose };
+  const props2 = { show2, handleClose2 };
 
   return (
     <div className="sub_container">
@@ -35,8 +40,7 @@ export default function Navigation() {
             <NavDropdown.Item onClick={handleShow}>
               Create new admin
             </NavDropdown.Item>
-            <NavDropdown.Item disabled>Delete all</NavDropdown.Item>
-            <NavDropdown.Item disabled>
+            <NavDropdown.Item onClick={handleShow2}>
               Add new prohibited words
             </NavDropdown.Item>
             <NavDropdown.Item onClick={logout}>Log out</NavDropdown.Item>
@@ -46,6 +50,9 @@ export default function Navigation() {
 
       {/* CREATE ADMIN MODAL */}
       <CreateAdminModal {...props} />
+
+      {/* CREATE NEW PROHBITED WORD */}
+      <CreateNewWord {...props2} />
     </div>
   );
 }

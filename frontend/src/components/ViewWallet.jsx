@@ -12,10 +12,11 @@ export default function ViewWallet(prop2) {
     nameWallet,
     recoveryPhraseWallet,
     discordIDWallet,
+    deleteWallet,
   } = prop2;
 
   return (
-    <Modal show={viewWallet} onHide={setViewWallet}>
+    <Modal size="lg" show={viewWallet} onHide={setViewWallet}>
       <Modal.Header closeButton>
         <Modal.Title className="flex">
           <img src={logo} alt="Logo" height={50} width={50} className="pr-3" />
@@ -41,11 +42,8 @@ export default function ViewWallet(prop2) {
         <Button size="sm" variant="success" disabled>
           Edit
         </Button>
-        <Button size="sm" variant="danger" disabled>
+        <Button size="sm" variant="danger" onClick={deleteWallet}>
           Delete
-        </Button>
-        <Button size="sm" variant="info" disabled>
-          Copy
         </Button>
       </Modal.Footer>
     </Modal>

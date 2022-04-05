@@ -1,39 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+
+import axios from "axios";
 
 import { Table } from "react-bootstrap";
 
 import { TABLEHEADERS } from "../Modules/Listing";
 
-import axios from "axios";
 import ViewWallet from "./ViewWallet";
 
-export default function WalletTable(props) {
-  // ACTIVE TABLES
-  const { activeTable, setActiveTable } = props;
-
-  // SELECTED TABLE WALLETS
-  const [table_wallets, set_able_wallets] = useState([]);
-
-  // GET ALL THE LIST OF ALL WALLETS
-  const getAll = () => {
+export default function WalletTable({ activeTable, table_wallets, getAll }) {
+  // DELETE WALLET
+  const deleteWallet = () => {
     var config = {
-      method: "get",
-      url: "http://localhost:8000/get-all-wallets",
+      method: "delete",
+      url: "/delete-wallet/" + nameWalletID,
     };
 
     axios(config)
-      .then(function (response) {
-        set_able_wallets(response.data);
+      .then((response) => {
+        alert(response.data);
+        getAll();
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch((error) => {
+        alert(error);
       });
   };
-
-  // RUN THIS ONLY EVERY MOUNT
-  useEffect(() => {
-    getAll();
-  }, []);
 
   // FILTER ACCORDING TO THE PRESENT TABLE
   const qq = [];
@@ -51,6 +42,7 @@ export default function WalletTable(props) {
   const [viewWallet, setViewWallet] = useState(false);
 
   // THE WALLET VIEWD LISTING
+  const [nameWalletID, setNameWalletID] = React.useState("");
   const [nameWallet, setNameWallet] = React.useState("");
   const [recoveryPhraseWallet, setRecoveryPhraseWallet] = React.useState("");
   const [discordIDWallet, setDiscordIDWalletWallet] = React.useState("");
@@ -58,6 +50,7 @@ export default function WalletTable(props) {
   // VIEW SELECTED WALLTE HANDLE
   const openWallet = (t) => {
     setViewWallet(true);
+    setNameWalletID(t._id);
     setNameWallet(t.wallet);
     setRecoveryPhraseWallet(t.recoveryPhrase.join(" "));
     setDiscordIDWalletWallet(t.discordID);
@@ -69,6 +62,8 @@ export default function WalletTable(props) {
     nameWallet,
     recoveryPhraseWallet,
     discordIDWallet,
+    nameWalletID,
+    deleteWallet,
   };
 
   return (
